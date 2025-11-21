@@ -1,89 +1,90 @@
-(This file explains JavaScript lexical environment, scope, and scope chain with examples.)
+# JavaScript Execution Context & Scope Chain & lexical environment
 
-# Lexical Environment, Scope, and Scope Chain
+## ✔ Global Execution Context
 
-## Overview
+When JavaScript starts executing a program, it creates the **Global Execution Context (GEC)**.  
+The GEC has two main parts:
 
-JavaScript's execution context relies on the concept of a *lexical environment*. A lexical environment is an internal data structure that holds identifier-variable mappings (bindings) and a reference to an outer lexical environment. Together these determine how names (variables, functions) are resolved at runtime.
+1. **Memory Component (Variable Environment)**  
+   - Allocates memory for all variables and functions  
+   - Variables are set to `undefined` initially  
+   - Functions are stored as references
 
-## Scope types
+2. **Lexical Environment**  
+   - Contains variable declarations + references to outer environments  
+   - In the global scope, the outer reference is `null`
 
-- **Global scope**: Variables declared in the global context are available anywhere in the program.
-- **Function scope**: Each function creates a new lexical environment; variables declared with `var` inside a function are local to that function.
-- **Block scope**: `let` and `const` create block-scoped bindings — they exist only within the nearest `{ ... }` block.
+---
 
-## Hoisting and temporal dead zone (TDZ)
+## ✔ Local (Function) Execution Context
 
-- **Hoisting**: Declarations are conceptually moved to the top of their scope. For `var`, the declaration is hoisted and initialized with `undefined`. For `let`/`const`, the declaration is hoisted but not initialized — accessing them before the declaration throws a `ReferenceError` (this period is called the Temporal Dead Zone).
+When a function is invoked, JavaScript creates a **Local Execution Context (LEC)** for that function.  
+It includes:
 
-Example (hoisting with `var`):
+- Its own memory for local variables and functions  
+- A lexical environment that has a **reference to its parent lexical environment**
 
+This parent-child link forms the **scope chain**.
+
+---
+
+## ✔ Example 1
 ```js
-console.log(x); // undefined
-var x = 5;
-```
-
-Example (TDZ with `let`):
-
-```js
-console.log(y); // ReferenceError
-let y = 10;
-```
-
-## Scope chain
-
-When the engine looks up a variable name, it starts in the current lexical environment. If the identifier isn't found, it moves to the outer lexical environment, and so on until it reaches the global environment. This lookup path is the *scope chain*.
-
-Example demonstrating scope chain:
-
-```js
-const a = 1; // global
-
-function outer() {
-	const b = 2;
-
-	function inner() {
-		const c = 3;
-		console.log(a, b, c); // 1 2 3 — inner can access its own, outer's, and global bindings
-	}
-
-	inner();
+function a() {
+    console.log(b);
 }
 
-outer();
+var b = 10;
+a(); 
+// Output: 10
 ```
 
-## Lexical vs dynamic scope
+### Explanation:
+- Function `a` has its own local execution context.
+- Inside `a`, JavaScript searches for `b` in the local scope.
+- Since `b` is not found locally, it looks into the **parent lexical environment** (global).
+- It finds `b = 10`, so it prints `10`.
 
-JavaScript uses *lexical* (static) scope: the scope of a variable is determined by its location in the source code at write-time, not by the call-time. That is why functions remember the environment where they were defined.
+---
 
-Example (closures capture lexical environment):
-
+## ✔ Example 2 (Nested Functions)
 ```js
-function makeCounter() {
-	let count = 0;
-	return function () {
-		count += 1;
-		return count;
-	};
+function a() {
+    var b = 10;
+    
+    function c() {
+        console.log(b);
+    }
+    
+    c();
 }
 
-const counter = makeCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2 — the inner function closes over `count`
+a();
 ```
 
-## Common pitfalls and tips
+### Explanation:
+- Function `c` does not have `b` in its local scope.
+- It looks outward into its parent lexical environment (function `a`).
+- It finds `b = 10` and prints it.
 
-- Rely on `let`/`const` instead of `var` to avoid unexpected hoisting/behavior.
-- Be mindful of closures holding references to outer variables — this can affect memory if not managed properly.
-- Understand when variables are created and initialized to debug `ReferenceError` vs `undefined` issues.
+---
 
-## Suggested additions
+## ✔ What is Scope Chain?
 
-- Add small diagrams showing lexical environments and the scope chain for visual learners.
-- Include interactive examples or JSFiddle links so readers can experiment.
-- Add a short section on `this` vs lexical scope (arrow functions inherit lexical `this`).
+The **scope chain** is the mechanism that allows JavaScript to access variables from outer (parent) scopes when they are not available in the current (local) scope.
 
-(End of file)
+> In simple words:  
+> *If a variable is not found in the current function, JavaScript moves outward step-by-step until it finds the variable.*
+
+---
+
+## ✔ Summary
+
+| Concept | Meaning |
+|--------|---------|
+| **Execution Context** | Environment where JS code is evaluated |
+| **Global Execution Context** | Created when JS program starts |
+| **Local Execution Context** | Created when a function is invoked |
+| **Lexical Environment** | Stores identifiers + reference to parent environment |
+| **Scope Chain** | Path JS uses to find variables from inner to outer scopes |
 
