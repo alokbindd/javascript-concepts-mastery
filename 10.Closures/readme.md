@@ -4,7 +4,7 @@ A **closure** is one of the most powerful concepts in JavaScript.
 
 A closure is created when an **inner function remembers** and can access variables from its **outer function's scope**, even after the outer function has returned.
 
----s
+---
 
 # 🔹 What Is a Closure?
 
