@@ -152,4 +152,26 @@ x();
 - Closures allow callback functions to remember variables even later in time.
 
 ---
+# Diagram: var vs let vs manual closure
 
+                    +--------------------------------+
+                    |  Loop with setTimeout Problem   |
+                    +--------------------------------+
+
+┌───────────────────────────┬───────────────────────────┬───────────────────────────────┐
+│         VAR (❌ WRONG)     │         LET (✔ CORRECT)   │     MANUAL CLOSURE (✔ CORRECT)│
+├───────────────────────────┼───────────────────────────┼───────────────────────────────┤
+│ ONE shared variable        │ NEW variable per loop     │ NEW "x" parameter each time   │
+│ (function scope)           │ (block scope)             │ (created by close(i))         │
+├───────────────────────────┼───────────────────────────┼───────────────────────────────┤
+│ i = 1                      │ i = 1                     │ close(1) → x = 1              │
+│ i = 2 (same i)             │ new i = 2 (Separate)      │ close(2) → x = 2              │
+│ i = 3                      │ new i = 3                 │ close(3) → x = 3              │
+│ i = 4                      │ new i = 4                 │ close(4) → x = 4              │
+│ i = 5                      │ new i = 5                 │ close(5) → x = 5              │
+│ i = 6 (after loop ends)    │ All i locked properly     │ Each closure remembers its x  │
+├───────────────────────────┼───────────────────────────┼───────────────────────────────┤
+│ ALL callbacks see i = 6   │ Each callback sees correct│ Each callback sees correct     │
+│ → 6,6,6,6,6                │ i → 1,2,3,4,5             │ x → 1,2,3,4,5                 │
+└───────────────────────────┴───────────────────────────┴───────────────────────────────┘
+---
