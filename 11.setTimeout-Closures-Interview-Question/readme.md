@@ -155,23 +155,15 @@ x();
 
 ## 🔥 Diagram: var vs let vs closure in setTimeout loops
 
-+---------------------------------------------------------------+
-|                    Loop with setTimeout Issue                 |
-+----------------------+-----------------------+-----------------+
-|      VAR (✖ WRONG)   |    LET (✔ CORRECT)    | MANUAL CLOSURE |
-|                      |                       |   (✔ CORRECT)   |
-+----------------------+-----------------------+-----------------+
-| ONE shared variable  | New variable per loop | New "x" per     |
-| (function scope)     | (block scope)         | closure call     |
-+----------------------+-----------------------+-----------------+
-| Loop i = 1           | Loop i = 1            | close(1) → x = 1|
-| Loop i = 2           | Loop i = 2            | close(2) → x = 2|
-| Loop i = 3           | Loop i = 3            | close(3) → x = 3|
-| Loop i = 4           | Loop i = 4            | close(4) → x = 4|
-| Loop i = 5           | Loop i = 5            | close(5) → x = 5|
-| Final i = 6          | Each i preserved      | Each x preserved|
-+----------------------+-----------------------+-----------------+
-| All callbacks print 6| Prints 1,2,3,4,5      | Prints 1,2,3,4,5|
-+----------------------+-----------------------+-----------------+
+| Feature / Case | VAR (✖ WRONG) | LET (✔ CORRECT) | MANUAL CLOSURE (✔ CORRECT) |
+|----------------|----------------|------------------|-----------------------------|
+| Scope Type | Function scope (one shared `i`) | Block scope (new `i` per loop) | New `x` per function call |
+| Loop Iteration 1 | i = 1 | i = 1 | close(1) → x = 1 |
+| Loop Iteration 2 | i = 2 | i = 2 | close(2) → x = 2 |
+| Loop Iteration 3 | i = 3 | i = 3 | close(3) → x = 3 |
+| Loop Iteration 4 | i = 4 | i = 4 | close(4) → x = 4 |
+| Loop Iteration 5 | i = 5 | i = 5 | close(5) → x = 5 |
+| After Loop | i = 6 (final value) | each `i` preserved | each `x` preserved |
+| Callback Behavior | All callbacks print **6** | Prints **1,2,3,4,5** | Prints **1,2,3,4,5** |
 
-
+---
