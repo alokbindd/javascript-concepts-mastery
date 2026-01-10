@@ -52,19 +52,136 @@ A closure is the combination of function with its lexical environment
 
 // 5. what if outer funtion is nested inside a outest function, Relation of Scope Chain and Closures
 
-function outest(){
-    var c = 20
-    function outer(b){
-        function inner(){
-            console.log(a,b,c)
-        }
-        let a = 10
-        return inner;
+// function outest(){
+//     var c = 20
+//     function outer(b){
+//         function inner(){
+//             console.log(a,b,c)
+//         }
+//         let a = 10
+//         return inner;
+//     }
+//     return outer
+// }
+
+// var close = (outest())("Hello world");
+// close();
+
+// 6. Conflicting name Global variables in JS, what if there is one more let a outside
+
+// function outest(){
+//     var c = 20
+//     function outer(b){
+//         function inner(){
+//             console.log(a,b,c)
+//         }
+//         // let a = 10
+//         return inner;
+//     }
+//     return outer
+// }
+// let a = 30;
+// var close = (outest())("Hello world");
+// close();
+
+// in this case due to closure and scopechain it will print 10 because the inner function forms closure with inner let a and suppose if there is no let a present in innerfunction it  will do more  deep in scope chain so it will then print 30
+
+// 7. Advantage of closure, one of the is Data Hiding & Encapsulation in JavaScript
+
+// example
+// function counter(){
+//     var count = 0
+//     function incrementcount(){
+//         count++
+//     }    
+// }
+// console.log(count) 
+// in this case we will get a reference error as the count is inside the closure so it cannot be outside of the function. This is data hiding and encapsulation
+
+// example
+// function counter(){
+//     var count = 0;
+//     return function incrementcount(){
+//         count++;
+//         console.log(count); 
+//     }
+// }
+
+// var counter1 = counter();
+// counter1();
+// counter1();
+// counter1();
+// counter1();
+
+// var counter2 = counter();
+// counter2();
+// counter2();
+// counter2();
+// counter2();
+
+//counter 2 will not touch the counter 1 has it creates a new independent copy or counter
+
+// 8. a goodway to write counter using constructor
+
+// function Counter(){
+//     var count = 0;
+//     this.incrementCount = function () {
+//         count++;
+//         console.log(count);
+//     }
+//     this.decrementCount = function () {
+//         count--;
+//         console.log(count);
+//     }
+// }
+
+// var counter1 = new Counter();
+// counter1.incrementCount()
+// counter1.incrementCount()
+// counter1.decrementCount()
+
+// 9. Disadvantage of closure
+
+// There could be overconsumption of memory as the closure create a lot of garbage value if lot of closure are formed and it is not collected until the program is finished.
+
+// 10. what is garbage collector in js?
+// A garbage collector in js is used to free up the memory space by taking out the unused variable which is no longer needed.
+
+// 11.Relation between Garbage Collection, Memory leaks, and Closures?
+
+// example
+// function a(){
+//     var x = 10
+//     return function b(){
+//         console.log(x)
+//     }
+// }
+
+// var y = a();
+// // ......
+// // ......
+// // ......
+// // ......
+// // ......
+// y();
+// Above like the value of x is not freeup memory as it is stored in now in y so when we call y funtion after many lines it still hold value of x 
+
+
+// Example of Smart Garbage collection by V8 JS Engine in Chrome
+
+function a(){
+    var x = 10, z = 20; 
+    return function b(){
+        console.log(x)
     }
-    return outer
 }
 
-var close = (outest())("Hello world");
-close();
+var y = a();
+// ......
+// ......
+// ......
+// ......
+// ......
+y();
 
-// 
+// by smart garbage collection the z is removed from memory which is no longer needed
