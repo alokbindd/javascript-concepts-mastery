@@ -75,7 +75,7 @@ Modern engines use **JIT (Just-In-Time) Compilation**:
 
 ### c) Execution
 - Code runs inside:
-  - **Call Stack*
+  - **Call Stack**
   - **Memory Heap**
 - Variables and functions get memory
 - Garbage Collection removes unused memory
@@ -153,4 +153,4 @@ Parsing → Compilation → Execution → Garbage Collection
 ✔ The JavaScript Environment adds power  
 Features like `setTimeout`, `fetch`, DOM APIs, and queues are part of the runtime — not the JavaScript language itself.
 
----
+--
