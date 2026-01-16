@@ -191,3 +191,9 @@ it runs *after at least X milliseconds*, when the Call Stack is free.**
 Understanding this removes the “trust issues” 😉
 
 ---
+## 🧭 Navigation
+
+⬅️ Previous: [16. JS Engine – Google V8 Architecture](../16.js-engine-Google-v8-architecture)  
+🏠 Home: [Repository Index](../README.md)  
+➡️ Next: [18. Higher-Order Functions ft. Functional Programming](../18.Higher-Order-Functions-ft.Functional-Programming)
+---
