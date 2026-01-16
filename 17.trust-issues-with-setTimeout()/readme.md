@@ -192,8 +192,16 @@ Understanding this removes the “trust issues” 😉
 
 ---
 ## 🧭 Navigation
+<p align="center">
+  <a href="../16.js-engine-Google-v8-architecture">
+    <button style="padding:6px 12px;">Previous</button>
+  </a>
+  <a href="../readme.md">
+    <button style="padding:6px 12px;">Home</button>
+  </a>
+  <a href="../18.Higher-Order-Functions-ft.Functional-Programming">
+    <button style="padding:6px 12px;">Next</button>
+  </a>
+</p>
 
-⬅️ Previous: [16. JS Engine – Google V8 Architecture](../16.js-engine-Google-v8-architecture)  
-🏠 Home: [Repository Index](../README.md)  
-➡️ Next: [18. Higher-Order Functions ft. Functional Programming](../18.Higher-Order-Functions-ft.Functional-Programming)
 ---
